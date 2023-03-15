@@ -8,10 +8,22 @@
 <input type="text" id ="cName"/>
 <button>Gönder</button>
 
+
+<table id="countryTable">
+    <thead>
+    <tr>
+        <th>#</th>
+        <th>Ülke</th>
+    </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+
 @section scripts{
 
     <script>
-
+        
         
         $("button").click(function(){
             var country = new Object();
@@ -24,9 +36,11 @@
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (response) {
+                    console.log(response);
+                    var jsonResponse = JSON.parse(response);
                     if (response != null) {
-                       
-                        console.log(response);
+                        GetDataTable();
+
                     } else {
                         console.log(response);
                     }
@@ -39,6 +53,39 @@
                 }
             });
         });
+
+        $(document).ready(function () {
+            GetDataTable();
+        });
+        
+
+       
+        function GetDataTable()
+        {
+            //$('#countryTable').DataTable().clear().draw();
+            $.ajax({
+            url: "/Country/GetCountries",
+                type: "GET",
+                    success: function (data) {
+                        var table = $("#countryTable").DataTable();
+                        table.clear().draw();
+                        $.each(data, function (index, data) {
+                            table.row.add([
+                                index + 1,
+                                data.name
+                            ]).draw();
+                        });
+                    },
+            error: function (xhr, textStatus, errorThrown) {
+                console.log(xhr.responseText);
+            }
+            });
+        }
+
+        
+       
+
+
         
 
 

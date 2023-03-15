@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
 using YemekKitabı.Data;
 using YemekKitabı.Models;
 
@@ -24,12 +25,22 @@ namespace YemekKitabı.Controllers
             Console.WriteLine(country.Name);
             _appDb.Add(country);
             _appDb.SaveChanges();
-            return null;
+            string strJson = JsonSerializer.Serialize<Country>(country);
+            return Json(strJson);
         }
 
-        public IActionResult GetCountry() {
+        [HttpGet]
+        public IActionResult GetCountries() {
+            List<Country> countries = _appDb.Countries.ToList();
+            if(countries.Count > 0)
+            {
+                return Ok(countries);
+            }
+            else
+            {
+                return Ok("Country listesi boş");
+            }
             
-            return View();
         }
 
 
