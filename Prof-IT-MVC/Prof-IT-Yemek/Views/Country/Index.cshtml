@@ -92,7 +92,7 @@
                         url: '/Country/Delete/' + value ,
                         type: 'DELETE',
                         success: function (result) {
-                            // Reload the table to reflect the changes
+                            console.log(result);
                             GetDataTable();
                         },
                         error: function (xhr, textStatus, errorThrown) {
