@@ -43,6 +43,24 @@ namespace YemekKitabı.Controllers
             
         }
 
+        [HttpDelete]
+        public IActionResult Delete(int id)
+        {
+            var country = _appDb.Countries.FirstOrDefault(c => c.Id == id);
+            if (country != null)
+            {
+                _appDb.Countries.Remove(country);
+                _appDb.SaveChanges();
+                return Ok("Ülke Silindi");
+            }
+            else
+            {
+                return NotFound("Ülke Bulunamadı");
+            }
+            
+            
+        }
+
 
 
     }

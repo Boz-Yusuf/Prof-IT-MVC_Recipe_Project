@@ -1,5 +1,5 @@
-using Microsoft.EntityFrameworkCore;
-using YemekKitab�.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using YemekKitabı.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 

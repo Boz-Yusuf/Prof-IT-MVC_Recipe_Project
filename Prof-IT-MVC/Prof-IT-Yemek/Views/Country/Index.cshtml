@@ -14,6 +14,7 @@
     <tr>
         <th>#</th>
         <th>Ülke</th>
+        <th></th>
     </tr>
     </thead>
     <tbody>
@@ -72,15 +73,38 @@
                         $.each(data, function (index, data) {
                             table.row.add([
                                 index + 1,
-                                data.name
+                                data.name,
+                            '<td> <button type="button" class= "btn btn-warning" > Güncelle </button> <button type="button" value ="' + data.id+ '"class= "btn btn-danger btn_sil" > Sil </button></td>',
+                                table.row
+                                
+
                             ]).draw();
+
                         });
                     },
             error: function (xhr, textStatus, errorThrown) {
                 console.log(xhr.responseText);
             }
-            });
+            }).done(function(){
+                    $(".btn_sil").on("click", function () {
+                        var value = $(this).val();
+                    $.ajax({
+                        url: '/Country/Delete/' + value ,
+                        type: 'DELETE',
+                        success: function (result) {
+                            // Reload the table to reflect the changes
+                            GetDataTable();
+                        },
+                        error: function (xhr, textStatus, errorThrown) {
+                            console.log(xhr.responseText);
+                        }
+                    });
+                });
+            }
+
+            );
         }
+
 
         
        
