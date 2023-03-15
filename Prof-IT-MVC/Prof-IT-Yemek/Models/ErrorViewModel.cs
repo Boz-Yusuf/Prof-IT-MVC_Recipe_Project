@@ -1,4 +1,4 @@
-namespace Prof_IT_Yemek.Models
+namespace YemekKitabı.Models
 {
     public class ErrorViewModel
     {

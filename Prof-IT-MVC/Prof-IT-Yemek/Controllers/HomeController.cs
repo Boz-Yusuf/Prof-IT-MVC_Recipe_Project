@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Prof_IT_Yemek.Models;
 using System.Diagnostics;
+using YemekKitabı.Models;
 
-namespace Prof_IT_Yemek.Controllers
+namespace YemekKitabı.Controllers
 {
     public class HomeController : Controller
     {
