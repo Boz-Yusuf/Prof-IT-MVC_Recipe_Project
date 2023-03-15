@@ -5,6 +5,7 @@ namespace YemekKitabı.Data
 {
     public class AppDbContext : DbContext
     {
+        //DENEME 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
 
