@@ -7,7 +7,7 @@ namespace YemekKitabı.Controllers
 {
     public class CountryController : Controller
     {
-        
+
 
         private readonly AppDbContext _appDb;
         public CountryController(AppDbContext appDbContext)
@@ -21,7 +21,8 @@ namespace YemekKitabı.Controllers
         }
 
         [HttpPost]
-        public JsonResult AddCountry([FromBody]Country country) {
+        public JsonResult AddCountry([FromBody] Country country)
+        {
             Console.WriteLine(country.Name);
             _appDb.Add(country);
             _appDb.SaveChanges();
@@ -30,9 +31,10 @@ namespace YemekKitabı.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetCountries() {
+        public IActionResult GetCountries()
+        {
             List<Country> countries = _appDb.Countries.ToList();
-            if(countries.Count > 0)
+            if (countries.Count > 0)
             {
                 return Ok(countries);
             }
@@ -40,7 +42,7 @@ namespace YemekKitabı.Controllers
             {
                 return Ok("Country listesi boş");
             }
-            
+
         }
 
         [HttpDelete]
@@ -57,8 +59,26 @@ namespace YemekKitabı.Controllers
             {
                 return NotFound("Ülke Bulunamadı");
             }
-            
-            
+
+
+        }
+        [HttpPut]
+        public IActionResult Update(Country newCountry)
+        {
+            var country = _appDb.Countries.FirstOrDefault(c => c.Id == newCountry.Id);
+            if (country != null)
+            {
+                country.Name = newCountry.Name;
+                _appDb.Countries.Update(country);
+                _appDb.SaveChanges(true);
+
+                return Ok(country);
+            }
+            else
+            {
+
+                return BadRequest("country bulunamadı!☺");
+            }
         }
 
 

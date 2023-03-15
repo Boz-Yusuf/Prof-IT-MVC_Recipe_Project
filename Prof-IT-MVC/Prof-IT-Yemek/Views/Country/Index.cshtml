@@ -1,118 +1,159 @@
-﻿
-@{
+﻿@{
 }
 
 
 
 
-<input type="text" id ="cName"/>
-<button>Gönder</button>
+<input type="text" id="cName" />
+<button id="addButton">Gönder</button>
 
 
 <table id="countryTable">
     <thead>
-    <tr>
-        <th>#</th>
-        <th>Ülke</th>
-        <th></th>
-    </tr>
+        <tr>
+            <th>#</th>
+            <th>Ülke</th>
+            <th></th>
+        </tr>
     </thead>
     <tbody>
     </tbody>
 </table>
 
+<div id="input">
+    <input id="updateInput" type="text" />
+    <button id="btnSave">Kaydet</button>
+</div>
+
 @section scripts{
 
-    <script>
-        
-        
-        $("button").click(function(){
-            var country = new Object();
-            country.Name = $("#cName").val();
-            country.Id = 0;
-            $.ajax({
-                type: "POST",
-                url: "/Country/AddCountry",
-                data: JSON.stringify(country),
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (response) {
-                    console.log(response);
-                    var jsonResponse = JSON.parse(response);
-                    if (response != null) {
-                        GetDataTable();
+<script>
 
-                    } else {
-                        console.log(response);
-                    }
-                },
-                failure: function (response) {
-                    console.log(response);
-                },
-                error: function (response) {
+
+    $("#addButton").click(function(){
+        var country = new Object();
+        country.Name = $("#cName").val();
+        country.Id = 0;
+        $.ajax({
+            type: "POST",
+            url: "/Country/AddCountry",
+            data: JSON.stringify(country),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                console.log(response);
+                var jsonResponse = JSON.parse(response);
+                if (response != null) {
+                    GetDataTable();
+
+                } else {
                     console.log(response);
                 }
-            });
-        });
-
-        $(document).ready(function () {
-            GetDataTable();
-        });
-        
-
-       
-        function GetDataTable()
-        {
-            //$('#countryTable').DataTable().clear().draw();
-            $.ajax({
-            url: "/Country/GetCountries",
-                type: "GET",
-                    success: function (data) {
-                        var table = $("#countryTable").DataTable();
-                        table.clear().draw();
-                        $.each(data, function (index, data) {
-                            table.row.add([
-                                index + 1,
-                                data.name,
-                            '<td> <button type="button" class= "btn btn-warning" > Güncelle </button> <button type="button" value ="' + data.id+ '"class= "btn btn-danger btn_sil" > Sil </button></td>',
-                                table.row
-                                
-
-                            ]).draw();
-
-                        });
-                    },
-            error: function (xhr, textStatus, errorThrown) {
-                console.log(xhr.responseText);
+            },
+            failure: function (response) {
+                console.log(response);
+            },
+            error: function (response) {
+                console.log(response);
             }
-            }).done(function(){
-                    $(".btn_sil").on("click", function () {
-                        var value = $(this).val();
-                    $.ajax({
-                        url: '/Country/Delete/' + value ,
-                        type: 'DELETE',
-                        success: function (result) {
-                            console.log(result);
-                            GetDataTable();
-                        },
-                        error: function (xhr, textStatus, errorThrown) {
-                            console.log(xhr.responseText);
-                        }
+        });
+    });
+
+    $(document).ready(function () {
+        GetDataTable();
+
+        $("#input").hide();
+
+    });
+
+
+
+    function GetDataTable()
+    {
+        //$('#countryTable').DataTable().clear().draw();
+        $.ajax({
+        url: "/Country/GetCountries",
+            type: "GET",
+                success: function (data) {
+                    var table = $("#countryTable").DataTable();
+                    table.clear().draw();
+                    $.each(data, function (index, data) {
+                        table.row.add([
+                            index + 1,
+                            data.name,
+                        '<td> <button type="button" class= "btn btn-warning btn_update" value ="' + data.id+ '" name ="' + data.name+ '" > Güncelle </button> <button type="button" value ="' + data.id+ '"class= "btn btn-danger btn_sil" > Sil </button></td>',
+                            table.row
+
+
+                        ]).draw();
+
                     });
+                },
+        error: function (xhr, textStatus, errorThrown) {
+            console.log(xhr.responseText);
+        }
+        }).done(function(){
+                $(".btn_sil").on("click", function () {
+                    var value = $(this).val();
+                $.ajax({
+                    url: '/Country/Delete/' + value ,
+                    type: 'DELETE',
+                    success: function (result) {
+                        console.log(result);
+                        GetDataTable();
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        console.log(xhr.responseText);
+                    }
                 });
-            }
+                })
 
-            );
+                 $(".btn_update").on("click",function(){
+                    var id = $(this).val();
+                    $("#input").show();
+
+                    var name = $(this).attr("name");
+                    $("#updateInput").val(name);
+
+                    $("#btnSave").click(function() {
+                        var newName = $("#updateInput").val();
+
+                        $.ajax({
+                            url: '/Country/Update/' + id ,
+                            type: 'PUT',
+                            data: {id: id, name: newName},
+
+                             success: function (result) {
+                                 GetDataTable();
+                                 $("#input").hide();
+                                 console.log(result);
+
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        console.log(xhr.responseText);
+                    }
+                        })
+
+                    })
+
+            });
         }
 
 
-        
-       
+
+        );
 
 
-        
+    }
 
 
-    </script>
+
+
+
+
+
+
+
+</script>
 
 }
