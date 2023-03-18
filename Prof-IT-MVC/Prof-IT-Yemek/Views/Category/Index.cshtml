@@ -8,11 +8,11 @@
 <button id="addButton">Gönder</button>
 
 
-<table id="countryTable">
+<table id="categoryTable">
     <thead>
         <tr>
             <th>#</th>
-            <th>Ülke</th>
+            <th>Kategori</th>
             <th></th>
         </tr>
     </thead>
@@ -27,7 +27,7 @@
 
 @section scripts{
 
-<script>
+    <script>
 
         $(document).ready(function () {
             GetDataTable();
@@ -37,7 +37,7 @@
             $(document).on("click", ".btn_sil", function () {
                 var value = $(this).val();
                 $.ajax({
-                    url: '/Country/Delete/' + value,
+                    url: '/Category/Delete/' + value,
                     type: 'DELETE',
                     success: function (result) {
                         console.log(result);
@@ -51,22 +51,26 @@
 
             $(document).on("click", ".btn_update", function () {
                 var id = $(this).val();
+                console.log(id);
                 $("#input").show();
 
                 var name = $(this).attr("name");
                 $("#updateInput").val(name);
 
+                
+
                 $("#btnSave").click(function () {
                     var newName = $("#updateInput").val();
 
                     $.ajax({
-                        url: '/Country/Update/' + id,
+                        url: '/Category/Update/' + id,
                         type: 'PUT',
                         data: { id: id, name: newName },
                         success: function (result) {
                             GetDataTable();
                             $("#input").hide();
                             console.log(result);
+                            
                         },
                         error: function (xhr, textStatus, errorThrown) {
                             console.log(xhr.responseText);
@@ -76,13 +80,13 @@
             });
 
             $("#addButton").click(function () {
-                var country = new Object();
-                country.Name = $("#cName").val();
-                country.Id = 0;
+                var category = new Object();
+                category.Name = $("#cName").val();
+                category.Id = 0;
                 $.ajax({
                     type: "POST",
-                    url: "/Country/AddCountry",
-                    data: JSON.stringify(country),
+                    url: "/Category/AddCategory",
+                    data: JSON.stringify(category),
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     success: function (response) {
@@ -107,10 +111,10 @@
 
         function GetDataTable() {
             $.ajax({
-                url: "/Country/GetCountries",
+                url: "/Category/GetCategories",
                 type: "GET",
                 success: function (data) {
-                    var table = $("#countryTable").DataTable();
+                    var table = $("#categoryTable").DataTable();
                     table.clear().draw();
                     $.each(data, function (index, data) {
                         table.row.add([
@@ -128,9 +132,9 @@
         }
 
 
-    
 
 
-</script>
+
+    </script>
 
 }
