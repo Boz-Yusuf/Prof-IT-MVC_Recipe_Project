@@ -18,7 +18,6 @@ namespace YemekKitabı.Controllers
             return View();
         }
 
-        [HttpGet]
         [Route("Cook/GetCooks")]
         public IActionResult GetCooks()
         {
@@ -55,7 +54,10 @@ namespace YemekKitabı.Controllers
                                                             ImagePath = ui.ImagePath
                                                         }).ToList()
                         };
-            return Ok(cooks);
+
+          
+            return View(cooks);
+
 
         }
         [HttpPost]

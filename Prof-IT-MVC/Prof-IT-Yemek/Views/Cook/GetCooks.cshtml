@@ -1,0 +1,21 @@
+﻿@model IEnumerable<CookDto>
+
+
+@foreach (var cook in Model)
+{
+	<p>@cook.Name</p>
+	<p>@cook.CategoryName</p>
+	<p>@cook.CountryName</p>
+	
+}
+
+@ViewBag.cooks
+
+@section scripts{
+
+	<script>
+
+		
+
+	</script>
+}
