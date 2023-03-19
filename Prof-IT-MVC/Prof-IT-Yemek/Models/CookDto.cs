@@ -1,18 +1,15 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace YemekKitabı.Models
+﻿namespace YemekKitabı.Models
 {
-    public class Cook
+    public class CookDto
     {
-        [Key]
+
         public int Id { get; set; }
-        [Required]
         public string Name { get; set; }
         public string Recipe { get; set; }
         public DateOnly Date { get; set; }
         public string Materials { get; set; }
-        public int CategoryId { get; set; }
-        public int CountryId { get; set; }
-
+        public string CategoryName { get; set; }
+        public string CountryName { get; set; }
+        public IEnumerable<Image> Images { get; set; }
     }
 }

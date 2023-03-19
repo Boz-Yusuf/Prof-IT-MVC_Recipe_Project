@@ -7,8 +7,6 @@ namespace YemekKitabı.Models
         public int CookId { get; set; }
         [Key]
         public int Id { get; set; }
-        public string ImagePath { get; set; }
-        public Cook Cook { get; set; }
-     
+        public string ImagePath { get; set; }     
     }
 }

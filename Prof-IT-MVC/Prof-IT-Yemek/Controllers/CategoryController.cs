@@ -29,6 +29,7 @@ namespace YemekKitabı.Controllers
         }
 
         [HttpGet]
+        [Route("Category/GetCategories")]
         public IActionResult GetCategories()
         {
             List<Category> categories = _appDb.Categories.ToList();

@@ -15,16 +15,5 @@ namespace YemekKitabı.Data
         public DbSet<Country> Countries { get; set; }
         public DbSet<Category> Categories { get; set; } 
 
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<Image>()
-            .HasOne(c => c.Cook)
-            .WithMany(b => b.Images)
-            .HasForeignKey(c => c.CookId);
-
-
-
-        }
     }
 }
