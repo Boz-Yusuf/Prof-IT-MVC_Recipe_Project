@@ -56,6 +56,10 @@
                 var name = $(this).attr("name");
                 $("#updateInput").val(name);
 
+
+
+                $("#btnSave").unbind("click");
+
                 $("#btnSave").click(function () {
                     var newName = $("#updateInput").val();
 

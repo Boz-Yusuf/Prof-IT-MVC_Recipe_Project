@@ -49,19 +49,23 @@
                 });
             });
 
+            var id = 0;
+
             $(document).on("click", ".btn_update", function () {
-                var id = $(this).val();
+
+                id = $(this).val();
                 console.log(id);
                 $("#input").show();
 
                 var name = $(this).attr("name");
                 $("#updateInput").val(name);
 
-                
+
+                $("#btnSave").unbind("click");
 
                 $("#btnSave").click(function () {
+                    
                     var newName = $("#updateInput").val();
-
                     $.ajax({
                         url: '/Category/Update/' + id,
                         type: 'PUT',
